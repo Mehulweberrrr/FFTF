@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FFTF | Future Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root { --accent: #E1FF00; --dark: #050505; --light: #F3F3F3; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--dark); color: var(--light); overflow-x: hidden; }
+        h1, h2, h3, .brand-font { font-family: 'Syncopate', sans-serif; letter-spacing: -1px; text-transform: uppercase; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        .glass { background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .product-card { transition: transform 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { transition: transform 0.5s ease; filter: grayscale(20%); }
+        .product-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+        .btn-glitch { position: relative; overflow: hidden; }
+        .btn-glitch::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s; }
+        .btn-glitch:hover::after { left: 100%; }
+        .mobile-nav { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(10px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="pb-20 md:pb-0">
+
+    <nav class="fixed top-0 w-full z-50 glass transition-all duration-300">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold brand-font tracking-tighter text-white">FFTF<span class="text-[var(--accent)]">.</span></a>
+            <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest uppercase text-gray-400">
+                <button onclick="app.filter('All')" class="hover:text-white transition">All Drops</button>
+                <button onclick="app.filter('Men')" class="hover:text-white transition">Men</button>
+                <button onclick="app.filter('Women')" class="hover:text-white transition">Women</button>
+            </div>
+            <button onclick="app.toggleCart()" class="relative group p-2">
+                <i class="ph ph-shopping-cart text-2xl text-white group-hover:text-[var(--accent)] transition"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-[var(--accent)] text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center opacity-0 scale-0 transition-all duration-300">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-[var(--dark)] via-transparent to-transparent"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-4xl" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="inline-block border border-[var(--accent)] text-[var(--accent)] px-3 py-1 text-[10px] font-bold tracking-[0.3em] uppercase mb-4 rounded-full">New Season Drop</div>
+            <h1 class="text-5xl md:text-8xl font-bold mb-4 leading-none text-white brand-font">Future <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Ready</span></h1>
+            <p class="text-gray-400 text-sm md:text-base max-w-lg mx-auto mb-8 font-light">Streetwear redefined for the bold. Limited pieces. Premium quality. Worldwide shipping.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})" class="btn-glitch bg-white text-black px-8 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] transition duration-300">Shop Collection</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="shop" class="container mx-auto px-4 py-20">
+        <div class="flex gap-3 overflow-x-auto no-scrollbar mb-10 md:justify-center pb-2">
+            <button onclick="app.filter('All')" class="bg-white text-black px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap hover:scale-105 transition">All</button>
+            <button onclick="app.filter('Men')" class="border border-gray-700 text-gray-300 px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap hover:border-white hover:text-white transition">Men</button>
+            <button onclick="app.filter('Women')" class="border border-gray-700 text-gray-300 px-6 py-2 rounded-full text-xs font-bold uppercase whitespace-nowrap hover:border-white hover:text-white transition">Women</button>
+        </div>
+
+        <div class="flex justify-between items-end mb-8 border-b border-gray-800 pb-4">
+            <h2 class="text-2xl md:text-4xl text-white">Latest Drops</h2>
+            <span class="text-xs text-[var(--accent)] uppercase tracking-widest hidden md:block animate-pulse">Live Now</span>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+             <div class="col-span-full text-center py-24"><div class="inline-block w-10 h-10 border-4 border-gray-600 border-t-[var(--accent)] rounded-full animate-spin"></div><p class="mt-4 text-gray-500 text-xs tracking-widest uppercase">Loading Database...</p></div>
+        </div>
+    </section>
+
+    <div id="overlay" onclick="app.toggleCart()" class="fixed inset-0 bg-black/80 z-[60] hidden backdrop-blur-sm transition-opacity duration-300"></div>
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 w-[90vw] md:w-[450px] bg-[#0f0f0f] z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col border-l border-gray-800">
+        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-[#141414]">
+            <h2 class="text-xl font-bold brand-font text-white">Your Cart</h2>
+            <button onclick="app.toggleCart()" class="hover:text-[var(--accent)] transition"><i class="ph ph-x text-2xl"></i></button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+        <div class="p-6 border-t border-gray-800 bg-[#141414]">
+            <div class="flex justify-between text-lg font-bold mb-4 text-white"><span>Subtotal</span><span id="cart-total" class="text-[var(--accent)]">₹0</span></div>
+            <p class="text-[10px] text-gray-500 mb-4 text-center">Shipping calculated at checkout.</p>
+            <button onclick="app.openCheckout()" class="btn-glitch w-full bg-[var(--accent)] text-black py-4 text-sm font-bold uppercase tracking-widest hover:bg-white transition shadow-lg">Checkout Now</button>
+        </div>
+    </div>
+    
+    <div id="checkout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+        <div class="bg-[#111] w-full max-w-md border border-gray-800 relative shadow-2xl" data-aos="zoom-in">
+            <button onclick="app.closeCheckout()" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="ph ph-x text-xl"></i></button>
+            <div class="p-8">
+                <h3 class="text-xl font-bold brand-font text-white mb-6">Secure Checkout</h3>
+                <form onsubmit="app.placeOrder(event)" class="space-y-4">
+                    <div class="space-y-4">
+                        <input type="text" id="name" placeholder="FULL NAME" class="w-full bg-[#222] border border-gray-700 p-3 text-sm text-white focus:border-[var(--accent)] outline-none transition" required>
+                        <input type="tel" id="phone" placeholder="PHONE NUMBER" class="w-full bg-[#222] border border-gray-700 p-3 text-sm text-white focus:border-[var(--accent)] outline-none transition" required>
+                        <input type="text" id="address" placeholder="DELIVERY ADDRESS" class="w-full bg-[#222] border border-gray-700 p-3 text-sm text-white focus:border-[var(--accent)] outline-none transition" required>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" id="city" placeholder="CITY" class="w-full bg-[#222] border border-gray-700 p-3 text-sm text-white focus:border-[var(--accent)] outline-none transition" required>
+                            <input type="text" id="zip" placeholder="ZIP CODE" class="w-full bg-[#222] border border-gray-700 p-3 text-sm text-white focus:border-[var(--accent)] outline-none transition" required>
+                        </div>
+                    </div>
+                    <div class="bg-[#222] p-4 mt-6 border border-gray-700">
+                        <div class="flex justify-between text-gray-400 text-xs mb-2"><span>Payment Method</span><span class="text-white font-bold">Cash on Delivery</span></div>
+                        <div class="flex justify-between font-bold text-lg text-white border-t border-gray-600 pt-2"><span>Total</span><span id="checkout-total" class="text-[var(--accent)]">₹0</span></div>
+                    </div>
+                    <button type="submit" class="w-full bg-white text-black py-4 font-bold uppercase tracking-widest text-sm hover:bg-[var(--accent)] transition mt-4">Confirm Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="toast" class="fixed top-24 right-5 bg-[#111] border border-[var(--accent)] text-white px-6 py-4 shadow-2xl transform translate-x-[200%] transition-transform duration-300 z-[120] flex items-center gap-4">
+        <div class="bg-[var(--accent)] text-black rounded-full p-1"><i class="ph-bold ph-check"></i></div>
+        <div><h4 class="text-sm font-bold uppercase">Added to Cart</h4><p class="text-[10px] text-gray-400">Great choice!</p></div>
+    </div>
+
+    <div class="md:hidden fixed bottom-0 w-full mobile-nav h-16 flex justify-around items-center z-40 text-gray-400">
+        <button onclick="window.scrollTo(0,0)" class="flex flex-col items-center hover:text-white"><i class="ph-fill ph-house text-xl"></i><span class="text-[10px] mt-1">Home</span></button>
+        <button onclick="document.getElementById('shop').scrollIntoView()" class="flex flex-col items-center hover:text-white"><i class="ph-bold ph-magnifying-glass text-xl"></i><span class="text-[10px] mt-1">Shop</span></button>
+        <button onclick="app.toggleCart()" class="flex flex-col items-center hover:text-white relative"><i class="ph-bold ph-shopping-bag text-xl"></i><span id="mobile-cart-badge" class="absolute -top-1 right-2 bg-[var(--accent)] text-black text-[8px] font-bold h-3 w-3 rounded-full flex items-center justify-center opacity-0">0</span><span class="text-[10px] mt-1">Cart</span></button>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script> AOS.init({ once: true, offset: 50 }); </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // 🔥🔥🔥 PASTE YOUR FIREBASE CONFIG HERE 🔥🔥🔥
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://fftf-online-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        let db;
+        try {
+            const appInstance = initializeApp(firebaseConfig);
+            db = getDatabase(appInstance);
+        } catch (e) {
+            console.error("Firebase Error:", e);
+        }
+
+        const state = { products: [], cart: [], isCartOpen: false };
+        const get = (id) => document.getElementById(id);
+
+        const productsRef = ref(db, 'products');
+        onValue(productsRef, (snapshot) => {
+            const data = snapshot.val();
+            state.products = [];
+            if (data) {
+                Object.keys(data).forEach(key => state.products.push({ id: key, ...data[key] }));
+                window.app.render(state.products);
+            } else {
+                get('product-grid').innerHTML = `<p class="col-span-full text-center py-10 text-gray-500">No products found.</p>`;
+            }
+        });
+
+        window.app = {
+            render: (list) => {
+                const grid = get('product-grid');
+                grid.innerHTML = "";
+                if(list.length === 0) return grid.innerHTML = `<p class="col-span-full text-center py-10 text-gray-500">No matches found.</p>`;
+
+                list.forEach((p, idx) => {
+                    // MEESHO BUTTON LOGIC
+                    let meeshoBtn = '';
+                    if (p.meeshoLink) {
+                        meeshoBtn = `<a href="${p.meeshoLink}" target="_blank" class="block text-center w-full mt-2 bg-pink-600 text-white py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-pink-500 transition">Shop on Meesho</a>`;
+                    }
+
+                    grid.innerHTML += `
+                        <div class="product-card group cursor-pointer" data-aos="fade-up" data-aos-delay="${idx * 50}">
+                            <div class="relative overflow-hidden aspect-[3/4] mb-3 bg-[#111] rounded-sm">
+                                <img src="${p.image}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+                                
+                                <button onclick="app.addToCart('${p.id}')" class="absolute bottom-0 w-full bg-white text-black py-3 text-xs font-bold uppercase tracking-widest translate-y-full group-hover:translate-y-0 transition duration-300 hidden md:block hover:bg-[var(--accent)]">
+                                    Add to Cart
+                                </button>
+                                <button onclick="app.addToCart('${p.id}')" class="absolute bottom-2 right-2 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center shadow-lg md:hidden active:scale-90 transition">
+                                    <i class="ph-bold ph-plus"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-sm font-bold text-white uppercase tracking-tight truncate w-32 md:w-40">${p.name}</h3>
+                                    <span class="text-[10px] text-gray-500 uppercase tracking-widest">${p.category}</span>
+                                </div>
+                                <span class="text-sm font-bold text-[var(--accent)]">₹${p.price}</span>
+                            </div>
+                            ${meeshoBtn}
+                        </div>
+                    `;
+                });
+            },
+
+            // ... (Rest of functions: filter, addToCart, removeFromCart, toggleCart, updateCart, openCheckout, closeCheckout, placeOrder, toast)
+            filter: (cat) => { if(cat === 'All') window.app.render(state.products); else window.app.render(state.products.filter(p => p.category === cat)); },
+            addToCart: (id) => { const item = state.products.find(p => p.id === id); state.cart.push(item); window.app.updateCart(); window.app.toast(); },
+            removeFromCart: (index) => { state.cart.splice(index, 1); window.app.updateCart(); },
+            toggleCart: () => {
+                state.isCartOpen = !state.isCartOpen;
+                const drawer = get('cart-drawer');
+                const overlay = get('overlay');
+                if (state.isCartOpen) { drawer.style.transform = 'translateX(0)'; overlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+                else { drawer.style.transform = 'translateX(100%)'; overlay.classList.add('hidden'); document.body.style.overflow = ''; }
+            },
+            updateCart: () => {
+                const count = state.cart.length;
+                const badge = get('cart-badge');
+                const mobBadge = get('mobile-cart-badge');
+                badge.innerText = count; mobBadge.innerText = count;
+                if(count > 0) { badge.classList.remove('opacity-0', 'scale-0'); mobBadge.classList.remove('opacity-0'); } 
+                else { badge.classList.add('opacity-0', 'scale-0'); mobBadge.classList.add('opacity-0'); }
+                const total = state.cart.reduce((sum, i) => sum + Number(i.price), 0);
+                get('cart-total').innerText = "₹" + total; get('checkout-total').innerText = "₹" + total;
+                const list = get('cart-items'); list.innerHTML = "";
+                if(count === 0) { list.innerHTML = `<div class="text-center text-gray-600 mt-20"><i class="ph ph-shopping-bag-open text-4xl mb-2 opacity-50"></i><p>Your cart is empty.</p></div>`; return; }
+                state.cart.forEach((item, idx) => {
+                    list.innerHTML += `<div class="flex gap-4 bg-[#111] p-3 rounded border border-gray-800"><img src="${item.image}" class="w-16 h-20 object-cover bg-[#222]"><div class="flex-1 flex flex-col justify-between"><div><h4 class="text-xs font-bold text-white uppercase line-clamp-1">${item.name}</h4><p class="text-[10px] text-gray-500 uppercase">${item.category}</p></div><div class="flex justify-between items-center"><span class="text-sm font-bold text-[var(--accent)]">₹${item.price}</span><button onclick="app.removeFromCart(${idx})" class="text-[10px] text-gray-500 hover:text-red-500 uppercase font-bold tracking-wide">Remove</button></div></div></div>`;
+                });
+            },
+            openCheckout: () => { if(state.cart.length === 0) return alert("Please add items to cart first."); window.app.toggleCart(); get('checkout-modal').classList.remove('hidden'); },
+            closeCheckout: () => get('checkout-modal').classList.add('hidden'),
+            placeOrder: (e) => {
+                e.preventDefault();
+                const order = { customer: { name: get('name').value, phone: get('phone').value, address: get('address').value, city: get('city').value, zip: get('zip').value }, items: state.cart, total: get('checkout-total').innerText, date: new Date().toISOString(), status: 'Pending' };
+                push(ref(db, 'orders'), order).then(() => { alert("Order Confirmed! Welcome to the club."); state.cart = []; window.app.updateCart(); window.app.closeCheckout(); }).catch(err => alert("Error: " + err.message));
+            },
+            toast: () => { const t = get('toast'); t.classList.remove('translate-x-[200%]'); setTimeout(() => t.classList.add('translate-x-[200%]'), 3000); }
+        };
+    </script>
+</body>
+</html>
